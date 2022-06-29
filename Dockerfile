@@ -1,10 +1,16 @@
 # The docker file is built follwing heavily the instructions here:
 # https://medium.com/@benjamin.botto/opengl-and-cuda-applications-in-docker-af0eece000f1
-FROM nvidia/cuda:9.2-devel-ubuntu18.04
+FROM nvidia/cuda:11.4.0-devel-ubuntu20.04
+
+ENV TZ=Asia/Dubai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt update
+RUN apt install -y tzdata
 
 # Dependencies for glvnd and X11.
 RUN apt-get update \
-  && apt-get install -y -qq --no-install-recommends \
+  && apt-get install -y -qq --no-install-recommends apt-utils \
   libglvnd0 \
   libgl1 \
   libglx0 \
